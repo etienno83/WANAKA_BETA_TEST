@@ -1,0 +1,135 @@
+<div class="container" id="main-container">
+  <div class="container pt-5 pb-5">
+     <div class="col-12">
+  <div class="d-flex flex-wrap justify-content-center">
+  <div class="row"> 
+     <div *ngFor="let conseil of conseils" class="col-sm">
+        <div class="card m-b-30">
+           <div class="card-body row">
+              <div class="col-6">
+                 <a href=""><img src="{{conseil?.imageUrl}}" alt="" class="img-fluid rounded-circle w-60"></a>
+              </div>
+              <div class="col-6 card-title align-self-center mb-0">
+                 <h5>{{conseil?.nomDuConseil}}</h5>
+              </div>
+           </div>
+           <div class="card-body">
+              <div class="float-right btn-group btn-group-sm">
+                 <a (click)="onOpenModal(conseil, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                 <a (click)="onOpenModal(conseil, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+              </div>
+           </div>
+        </div>
+        <a class="btn btn-primary" routerLink="../../details/{{conseil.id}}">Voir les détails</a>
+     </div>
+  </div>
+
+  <!-- Add Conseil Modal -->
+ <div class="modal fade" id="addConseilModal" tabindex="-1" role="dialog" aria-labelledby="addConseilModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="addConseilModalLabel">Ajouter un conseil</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+       <div class="modal-body">
+          <form #addForm="ngForm" (ngSubmit)="onAddConseil(addForm)">
+          <div class="form-group">
+             <label for="nomDuConseil">Nom Du Conseil: </label>
+             <input type="text" [(ngModel)]="nomDuConseil" name="nomDuConseil" class="form-control" id="nomDuConseil" placeholder="Nom" required>
+          </div>
+          <div class="form-group">
+            <label for="details">Détails : </label>
+            <input type="text" ngModel name="details" class="form-control" id="details" placeholder="Détails" required>
+         </div>
+         <div class="form-group">
+             <label for="imageUrl">Photo de Profil : </label>
+             <input type="text" ngModel name="imageUrl" class="form-control" id="imageUrl" placeholder="Photo de Profil" required>
+          </div>
+          <div class="form-group">
+            <label for="solutionWanaka">Solution Wanaka : (A REMPLIR!) </label>
+            <input type="text" [(ngModel)]="solutionWanaka" name="solutionWanaka" class="form-control" id="solutionWanaka" placeholder="Solution Wanaka (ATTENTION! OBLIGATION DE REMPLIR CE CHAMPS" required>
+         </div>
+          <div class="modal-footer">
+             <button type="button" id="add-conseil-form" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+             <button [disabled]="nomDuConseil==null" [disabled]="solutionWanaka==null" type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+          </form>
+       </div>
+    </div>
+  </div>
+  </div>
+
+ <!-- Edit Modal -->
+<div class="modal fade" id="updateConseilModal" tabindex="-1" role="dialog" aria-labelledby="conseilEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="updateConseilModalLabel">Modifier Conseil {{editConseil?.nomDuConseil}}</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <form #editForm="ngForm"> 
+              <div class="form-group">
+             <label for="nomDuConseil">Nom Du Conseil: </label>
+             <input type="text" ngModel="{{editConseil?.nomDuConseil}}" name="nomDuConseil" class="form-control" id="nomDuConseil" placeholder="Nom" required>
+          </div>
+          <input type="hidden" ngModel = "{{editConseil?.id}}" name="id" class="form-control" id="id" placeholder="Email">
+          <div class="form-group">
+            <label for="details">Détails : </label>
+            <input type="text" ngModel="{{editConseil?.details}}" name="details" class="form-control" id="details" placeholder="Détails" required>
+         </div>
+         <div class="form-group">
+            <label for="solutionWanaka">Solution Wanaka :</label>
+            <input type="text" ngModel="{{editConseil?.solutionWanaka}}" name="solutionWanaka" class="form-control" id="solutionWanaka" placeholder="Solution Wanaka" required>
+         </div>
+          <div class="form-group">
+             <label for="imageUrl">Photo de Profil : </label>
+             <input type="text" ngModel="{{editConseil?.imageUrl}}" name="imageUrl" class="form-control" id="imageUrl" placeholder="Photo de Profil" required>
+          </div>
+         <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Fermer</button>
+                 <button (click)="onUpdateConseil(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Enregistrer</button>
+              </div>
+           </form>
+        </div>
+     </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteConseilModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="deleteModelLabel">Supprimer Conseil</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <p>Etes vous certain.e de vouloir supprimer le conseil {{deleteConseil?.nomDuConseil}}?</p>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+              <button (click)="onDeleteConseil(deleteConseil.id)" onClick="window.location.reload();" class="btn btn-danger" data-dismiss="modal">Oui</button>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Notification for no conseil -->
+<div *ngIf="conseils?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Pas de conseils pour cette solution</h4>
+  <p>Aucun conseil n'a été trouvé</p>
+</div>
+</div>

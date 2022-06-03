@@ -1,0 +1,17 @@
+<div class="container pt-5">
+    <div class="row justify-content-sm-center pt-5">
+        <div class="col-sm-6 shadow round pb-3">
+          <h1 class="text-center pt-3 text-secondary">Détails de {{conseil.nomDuConseil}}</h1>
+            <form [formGroup]="exform">
+                <div class="form-group">
+                  <label class="col-form-label">Nom Du Conseil :</label>
+                  <input formControlName="nomDuConseil" type="text" class="form-control">
+                  <small *ngIf="nomDuConseil?.invalid && (nomDuConseil?.dirty || nomDuConseil?.touched) && nomDuConseil?.hasError('required')" class="text-danger">Name is Required</small> 
+                </div>
+                <button (click)="clicksub()" [disabled]="exform.invalid" type="button" class="btn btn-primary">Modifier {{conseil.nomDuConseil}}</button>
+              </form>
+             
+
+        </div>
+    </div>
+  </div>
